@@ -6,7 +6,7 @@
 <body>
 	<h1>Add a Page</h1>
 
-	<form id = "page_form" method="POST" action="/rango/add_page/">
+	<form id = "page_form" method="POST" action="/rango/category/{{slug}}/add_page/">
 		
 		{% csrf_token %}
 		{% for hidden in form.hidden_fields %}

@@ -65,6 +65,8 @@ def add_category(request):
 def add_page(request,category_name_slug):
 	# check for post method
 
+	print "hello from add page" + category_name_slug
+
 	try:
 		cat = Category.objects.get(slug = category_name_slug)
 	except Exception, e:
@@ -80,7 +82,7 @@ def add_page(request,category_name_slug):
 				page = form.save(commit = False)
 				page.category = cat
 				page.views = 0
-				page.save
+				page.save()
 				return category(request,category_name_slug)
 		else:
 			print form.errors
@@ -88,6 +90,6 @@ def add_page(request,category_name_slug):
 	else:
 		form = PageForm()
 
-	context_dict = {'form' : form,'category' : cat}
+	context_dict = {'form' : form,'category' : cat,'slug' : category_name_slug}
 
-	return render(request,'rango/category/'+ cat.slug +'/add_page.html',context_dict)
+	return render(request,'rango/add_page.html',context_dict)
