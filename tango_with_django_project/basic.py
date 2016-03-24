@@ -8,3 +8,7 @@ http://stackoverflow.com/questions/10022018/how-to-debug-indentation-errors-in-p
 # autoindenting
 
 http://stackoverflow.com/a/23719472/3397298
+
+
+https://realpython.com/blog/python/setting-up-sublime-text-3-for-full-stack-python-development/
+#take help when install sublime.

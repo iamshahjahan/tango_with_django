@@ -4,6 +4,7 @@ from django.conf import settings
 
 urlpatterns = patterns('',url(r'^$',views.index,name='index')
                          ,url(r'^about/$',views.about,name='about')
+                         ,url(r'^register/$',views.register,name='register')
                          ,url(r'^add_category/$',views.add_category,name='add_category')
                          ,url(r'^category/(?P<category_name_slug>[\w\-]+)/$',views.category, name ='category')
                          ,url(r'^category/(?P<category_name_slug>\w+)/add_page/$',views.add_page, name ='add_page')
@@ -16,8 +17,3 @@ if settings.DEBUG:
         (r'^media/(?P<path>.*)',
         'serve',
         {'document_root': settings.MEDIA_ROOT}), )
-
-
-
-
-
