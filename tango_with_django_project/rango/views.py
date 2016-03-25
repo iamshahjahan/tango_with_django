@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from rango.forms import CategoryForm, PageForm
-from rango.models import Category, Page
+from rango.models import Category, Page, UserProfile
 from rango.forms import UserForm, UserProfileForm
+from django.contrib.auth.models import User
+
 
 def index(request):
 # sending the data from category model to the server:
@@ -103,7 +105,7 @@ def register(request):
 
 	if request.method == 'POST':
 
-		user_form = User(data = request.POST)
+		user_form = UserForm(data = request.POST)
 		profile_form = UserProfileForm(data = request.POST)
 
 		if user_form.is_valid() and profile_form.is_valid():
@@ -116,17 +118,17 @@ def register(request):
 
 			profile.user = user
 
-			if picture in request.FILES:
+			if 'picture' in request.FILES:
 				profile.picture = request.FILES['picture']
 
 			profile.save()
 
 			registered = True
 		else:
-			print user_form.errors + profile_form.errors
+			print user_form.errors , profile_form.errors
 	else:
-
+		print " I am in else"
 		user_form = UserForm()
 		profile_form = UserProfileForm()
 
-	render(request,'rango/register.html',{'user_form' : user_form,'profile_form' : profile_form,'registered':registered})
+	return render(request,'rango/register.html',{'user_form' : user_form,'profile_form' : profile_form,'registered':registered})

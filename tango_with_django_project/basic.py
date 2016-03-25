@@ -12,3 +12,8 @@ http://stackoverflow.com/a/23719472/3397298
 
 https://realpython.com/blog/python/setting-up-sublime-text-3-for-full-stack-python-development/
 #take help when install sublime.
+
+
+avoid using git username and password again and again.
+
+http://stackoverflow.com/questions/8588768/git-push-username-password-how-to-avoid
