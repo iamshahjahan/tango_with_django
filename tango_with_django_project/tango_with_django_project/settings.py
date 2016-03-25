@@ -62,6 +62,8 @@ TEMPLATE_DIRS = (
     TEMPLATE_PATH,
 )
 
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

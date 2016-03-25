@@ -84,7 +84,7 @@ def add_page(request,category_name_slug=None):
                 page.views = 0
                 page.save()
                 print "sdjhfjshk"
-                return HttpResponseRedirect('/rango/category/' + category_name_slug + '/')
+                return HttpResponseRedirect('rango/category/' + category_name_slug + '/')
         else:
             print form.errors
 
@@ -129,4 +129,4 @@ def register(request):
 		user_form = UserForm()
 		profile_form = UserProfileForm()
 
-	render(request,'/rango/register.html',{'user_form' : user_form,'profile_form' : profile_form,'registered':registered})
+	render(request,'rango/register.html',{'user_form' : user_form,'profile_form' : profile_form,'registered':registered})
