@@ -28,7 +28,7 @@ SECRET_KEY = 'tevxmc@m90(p)&a3sxl!a8hgj=gvbc!7xu@^3##)n+sja6*(_2'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+LOGIN_URL = '/rango/login/'
 
 # Application definition
 
@@ -61,7 +61,6 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     TEMPLATE_PATH,
 )
-
 
 
 TEMPLATES = [

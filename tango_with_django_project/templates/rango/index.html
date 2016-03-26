@@ -1,62 +1,63 @@
-<!DOCTYPE html>
+
+{% extends "rango/base.html" %}
 {% load staticfiles %}
 
-<html>
-<head>
-    <title>Rango</title>
-</head>
-<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" /> <!-- CSS -->
-<script src="{% static "js/bootstrap.min.js" %}"></script> <!-- JavaScript -->
+{% block title %}
+Rango
+{% endblock title %}
 
-<body>
-    <h1 class="text-center">Rango says...hello world!</h1>
-    <br>
-    <br>
-    <div class="row">
-        <div class="col-md-offset-2 col-md-4">
-            {% if categories %}
-            <ul>
-                {% for category in categories %}
-                <li>
-                    <a href="/rango/category/{{category.slug}}">
-                        {{category.name}}
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <strong>There are no categories present.</strong>
-            {% endif %}
 
-            <button class="bt bt-success"><a href="/rango/add_category">Add Category</a></button>
-        </div>
-        <div class="col-md-4">
-            {% if pages %}
-            <ul>
-                {% for page in pages %}
-                <li>
-                    <a href="/rango/category/">
-                        {{page.title}}
-                    </a>
-                </li>
-                {% endfor %}
-            </ul>
-            {% else %}
-            <strong>There are no categories present.</strong>
-            {% endif %}
-            <button class="bt bt-success"><a href="/rango/add_page">Add Page</a></button>
+{% block body_block %}
+{% if user.is_authenticated %}
+<h1 class="text-center">Rango says {{ user.username }}!</h1>
+{% else %}
+<h1 class="text-center">Rango says...hello world!</h1>
+{% endif %}
 
-        </div>
+<br>
+<div class="row">
+    <div class="col-md-offset-2 col-md-4">
+        {% if categories %}
+        <ul>
+            {% for categorys in categories %}
+            <li>
+                <a href="{% url 'category'  categorys.slug %}">
+                    {{categorys.name}}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <strong>There are no categories present.</strong>
+        {% endif %}
+        {% if user.is_authenticated %}
 
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        {% if pages %}
+        <ul>
+            {% for page in pages %}
+            <li>
+                <a href="{{ page.url }}">
+                    {{page.title}}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <strong>There are no categories present.</strong>
+        {% endif %}
+        {% if user.is_authenticated %}
+
+
+
+        {% endif %}
 
     </div>
 
-    <div class="text-center">
-        <a href="/rango/register">Register here.</a>
-    </div>
 
+</div>
 
-
-</body>
-</html>
+{% endblock body_block %}
 

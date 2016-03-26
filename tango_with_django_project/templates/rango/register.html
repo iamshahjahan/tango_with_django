@@ -1,16 +1,15 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Rango</title>
-</head>
-<body>
+{% extends "rango/base.html" %}
+{% block title %}
+	Register.
+{% endblock title %}
+{% block body_block %}
 	<h1>Register with django.</h1>
 	{% if registered %}
 	Rango says <strong>Thank you man!. Go to your home </strong> 
 	<a href="/rango/">here</a>.
 	{% else %}
 	Rango says <strong>Register here!</strong>
-	<form id="user_form" method="POST" action="/rango/register/">
+	<form id="user_form" method="POST" action="{% url 'register' %}">
 		{% csrf_token %}
 		{{ user_form.as_p }}
 		{{ profile_form.as_p }}
@@ -20,5 +19,4 @@
 
 	{% endif %}
 
-</body>
-</html>
+{% endblock body_block %}

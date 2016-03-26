@@ -4,6 +4,9 @@ from rango.forms import CategoryForm, PageForm
 from rango.models import Category, Page, UserProfile
 from rango.forms import UserForm, UserProfileForm
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 
 
 def index(request):
@@ -45,6 +48,7 @@ def category(request,category_name_slug):
     return render(request,'rango/category.html',context_dict)
 
 # defining form data
+@login_required
 def add_category(request):
     # check for post method
 
@@ -65,6 +69,7 @@ def add_category(request):
     return render(request,'rango/add_category.html',{'form' : form})
 
 # adding page here
+@login_required
 def add_page(request,category_name_slug=None):
     # check for post method
     print category_name_slug
@@ -86,7 +91,7 @@ def add_page(request,category_name_slug=None):
                 page.views = 0
                 page.save()
                 print "sdjhfjshk"
-                return HttpResponseRedirect('rango/category/' + category_name_slug + '/')
+                return HttpResponseRedirect('/rango/category/' + category_name_slug + '/')
         else:
             print form.errors
 
@@ -132,3 +137,43 @@ def register(request):
 		profile_form = UserProfileForm()
 
 	return render(request,'rango/register.html',{'user_form' : user_form,'profile_form' : profile_form,'registered':registered})
+
+def user_login(request):
+	if request.method == "POST":
+# get username and password
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+
+ 		user = authenticate(username = username,password = password)
+
+ 		if user:
+
+ 			# check whether user is active or not
+
+ 			if user.is_active:
+ 				login(request,user)
+
+ 				return HttpResponseRedirect("/rango/")
+ 			else:
+ 				return HttpResponse("Your account has been disabled.")
+
+ 		else:
+ 			print "invalid login details: %s %s" % (username,password)
+           	return HttpResponse("Invalid login details supplied.")
+ 	else:
+ 		return render(request,'rango/login.html',{})
+
+@login_required
+def restricted(request):
+    return HttpResponse("Since you're logged in, you can see this text!")
+
+
+
+# Use the login_required() decorator to ensure only those logged in can access the view.
+@login_required
+def user_logout(request):
+    # Since we know the user is logged in, we can now just log them out.
+    logout(request)
+
+    # Take the user back to the homepage.
+    return HttpResponseRedirect('/rango/')
