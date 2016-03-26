@@ -10,14 +10,11 @@ from django.contrib.auth import logout
 
 
 def index(request):
-# sending the data from category model to the server:
-
-    context_catogaries = Category.objects.order_by('-likes')[:18]
-    context_pages = Page.objects.order_by('-views')[:18]
-
-    context_dict = {'categories' : context_catogaries , 'pages' : context_pages}
-
-    return render(request,'rango/index.html',context_dict)
+	request.session.set_test_cookie()
+	context_catogaries = Category.objects.order_by('-likes')[:18]
+	context_pages = Page.objects.order_by('-views')[:18]
+	context_dict = {'categories':context_catogaries,'pages':context_pages}
+	return render(request,'rango/index.html',context_dict)
 
 def about(request):
     return HttpResponse("Rango says here is the about page. Click <a href='../'> here</a>")
@@ -105,6 +102,10 @@ def add_page(request,category_name_slug=None):
 
 def register(request):
 	print "hello from request"
+
+	if request.session.test_cookie_worked():
+		print "cookie worked."
+		request.session.delete_test_cookie()
 
 	registered = False
 
