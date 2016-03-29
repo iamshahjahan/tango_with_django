@@ -7,15 +7,45 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from urllib2 import Request, build_opener, HTTPCookieProcessor, HTTPHandler
+import cookielib
 
 
 def index(request):
-	request.session.set_test_cookie()
+
+	# check whether cookie exits
+	visits = (int(request.COOKIES.get('visits',1)))
+	#Create a CookieJar object to hold the cookies
+	cj = cookielib.CookieJar()
+	#Create an opener to open pages using the http protocol and to process cookies.
+	opener = build_opener(HTTPCookieProcessor(cj), HTTPHandler())
+
+	#create a request object to be used to get the page.
+	req = Request("http://www.twitter.com")
+	f = opener.open(req)
+
+	#see the first few lines of the page
+	html = f.read()
+	print html[:50]
+
+	#Check out the cookies
+	print "the cookies are: "
+	for cookie in cj:
+		print cookie
+
+
 	context_catogaries = Category.objects.order_by('-likes')[:18]
 	context_pages = Page.objects.order_by('-views')[:18]
 	context_dict = {'categories':context_catogaries,'pages':context_pages}
-	return render(request,'rango/index.html',context_dict)
+	response = render(request,'rango/index.html',context_dict)
 
+	visits+=1
+
+	response.set_cookie('visits',visits)
+
+	print "visit is " + str(visits)
+
+	return response
 def about(request):
     return HttpResponse("Rango says here is the about page. Click <a href='../'> here</a>")
  # working here for the category page
@@ -102,10 +132,6 @@ def add_page(request,category_name_slug=None):
 
 def register(request):
 	print "hello from request"
-
-	if request.session.test_cookie_worked():
-		print "cookie worked."
-		request.session.delete_test_cookie()
 
 	registered = False
 
